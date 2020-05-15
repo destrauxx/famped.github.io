@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            background-color: #252523;
+        }
+        #canvas {
+            position: absolute;
+            background-color: white;
+            border-radius: 5px;
+        }
+        #clear {
+            position: relative;
+            background-color: magenta;
+            height: 25px;
+            width: 65px;
+            border-radius: 5px;
+            margin-left: 1020px;
+            z-index: 99999;
+        }
+        #textForClear {
+            margin-top: 3px;
+            margin-left: 15px;
+            user-select: none;
+        }
+        #redBox {
+            position: relative;
+            background-color: rgb(116, 0, 0);
+            height: 25px;
+            width: 65px;
+            border-radius: 5px;
+            margin-left: 10px;
+            z-index: 99999;
+        }
+        #greenBox {
+            position: relative;
+            background-color: rgb(0, 109, 0);
+            height: 25px;
+            width: 65px;
+            border-radius: 5px;
+            margin-left: 10px;
+            z-index: 99999;
+        }
+        #blueBox {
+            position: relative;
+            background-color: rgb(0, 0, 116);
+            height: 25px;
+            width: 65px;
+            border-radius: 5px;
+            margin-left: 10px;
+            z-index: 99999;
+        }
+    </style>
+</head>
+<body>
+    <div id="clear"><p id="textForClear">Clear</p></div>
+    <div id="redBox"></div>
+    <div id="greenBox"></div>
+    <div id="blueBox"></div>
+    <canvas id="canvas" width="700" height="657"></canvas>
+    <script>
+        //Переменные
+
+        let 
+            canv = document.querySelector("#canvas"),
+            ctx = canv.getContext("2d"), 
+            isMouseDown = false,
+            redBox = document.querySelector('#redBox'),
+            greenBox = document.querySelector('#greenBox')
+            blueBox = document.querySelector('#blueBox')
+
+            canv.width = window.innerWidth
+            canv.height = window.innerHeight
+
+
+        //Отслеживание зажатия мышки на холсте
+        
+        canv.addEventListener('mousedown', function () {
+            isMouseDown = true
+        })
+        
+        canv.addEventListener('mouseup', function () {
+            isMouseDown = false
+            ctx.beginPath()
+        })
+
+        //Изменение цвета линии по нажатию кнопки, и показание цвета линии пользователя, а также очищение холста
+
+        redBox.addEventListener('click', function () {
+            ctx.fillStyle = 'rgb(116, 0, 0)'
+            ctx.strokeStyle = 'rgb(116, 0, 0)'
+            redBox.style.backgroundColor = 'red'
+            greenBox.style.backgroundColor = 'rgb(0, 109, 0)'
+            blueBox.style.backgroundColor = 'rgb(0, 0, 116)'
+        })
+
+        greenBox.addEventListener('click', function () {
+            ctx.fillStyle = 'rgb(0, 109, 0)'
+            ctx.strokeStyle = 'rgb(0, 109, 0)'
+            greenBox.style.backgroundColor = 'lime'
+            redBox.style.backgroundColor = 'rgb(116, 0, 0)'
+            blueBox.style.backgroundColor = 'rgb(0, 0, 116)'
+            
+        })
+
+        blueBox.addEventListener('click', function () {
+            ctx.fillStyle = 'rgb(0, 0, 116)'
+            ctx.strokeStyle = 'rgb(0, 0, 116)'
+            blueBox.style.backgroundColor = 'blue'
+            redBox.style.backgroundColor = 'rgb(116, 0, 0)'
+            greenBox.style.backgroundColor = 'rgb(0, 109, 0)'
+        })
+
+        clear.addEventListener('click', function () {
+            ctx.clearRect(0, 0, window.innerWidth, window.innerWidth)
+        })
+
+        //Конструкция самой кисти рисования
+
+        ctx.lineWidth = 10 * 2
+        canv.addEventListener('mousemove', function(e) {
+            if (isMouseDown) {
+                ctx.lineTo(e.clientX, e.clientY)
+                ctx.stroke()
+
+                ctx.beginPath()
+                ctx.arc(e.clientX, e.clientY, 10, 0, Math.PI * 2)
+                ctx.fill()
+
+                ctx.beginPath()
+                ctx.moveTo(e.clientX, e.clientY)
+            }
+        })
+    </script>
+</body>
+</html>
