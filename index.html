@@ -65,8 +65,13 @@
                     this.dy *= -1
                 }
             }
-            
+            // Метод изменения положения мяча        
+            this.changeDirection = function() {
+                this.x *= -1
+                this.y *= -1
+            }
         }
+    
         let c1 = new Circle(300, 300, 8, 'black')
         let circles = [c1]
 
@@ -77,12 +82,11 @@
             this.y = 570
 
             this.show = function () {
+                // Если Panel это конструктор для красного прямоугольника, который отбивает мяч то
                 ctx.fillStyle = this.color
-
-                for (let i = 0; i < 100; i++) {
-                    ctx.fillRect(this.x, this.y, this.size * 5, this.size)
-                }
+                ctx.fillRect(this.x, this.y, this.size * 5, this.size)
             }
+            
             this.move = function (direction) {
                 if (direction === 97) {
                     this.x -= 10
@@ -90,12 +94,18 @@
                     this.x += 10
                 } 
                 if (this.x + this.size * 5 > canvasWidth) {
-                    this.x -= 10
+                    // тут достаточно установить значение максимально доступным
+                    this.x = canvasWidth - this.size * 5
                 } else if (this.x < 0) {
-                    this.x += 10
+                    this.x = 0
                 }
             }
-            this.check = function (x, y, size, speedX, speedY) {
+            
+            // Лучше называть методы более подробно, в качестве аргумента достаточно принимать только объект мяча
+            this.checkCollision = function(ball) {
+                // Псевдокод для тебя
+                // если левая точка у мяча меньше чем длина отбивалки и левая точка + размер мяча больше левой точки у отбивалки
+                // вернуть true, иначе false
                 if (x + size > this.x + (this.size * 5) && y + size > this.y + size) {
                     speedX *= -2
                     speedY *= -2
@@ -112,7 +122,11 @@
                 const c = circles[i]
                 c.move()
                 c.drawCircle()
-                p.check(c.x, c.y, c.y, c.dx, c.dy)
+                p.check(c)
+                // Попробуй добавить метод изменения направления у мяча
+                // if p.checkCollision(c) {
+                //     c.changeDirection()
+                // }
                 // if (c.check()) {
                 //     c.gameOver()
                 // }
