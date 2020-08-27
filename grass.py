@@ -13,9 +13,11 @@ def create_template(u):
     '''
     user_number = u
     template = []
-    for _ in range(user_number):
-            template.append('_' + ' ')
-    return template
+    x_pol = []
+    for u in range(user_number):
+            x_pol.append('_' + ' ')
+            template.append(x_pol)
+    return x_pol, template
 
 
 def list_to_string_convert(t):
@@ -24,47 +26,43 @@ def list_to_string_convert(t):
     output: s - list converted to string
     """
     s = ''
-    return s.join(t)
+    return s.join(t[0])
 
 
 def user_input_act():
     '''
     output: act of user(str)
     '''
-    user_input_act = input('Для того чтобы премещаться по полю использовать: up down right left и exit для выхода: ')
+    user_input_act = input('Для того чтобы перемещаться по полю использовать: up down right left и exit для выхода: ')
     return user_input_act
 
 
-def the_character(act):
+def the_character(act, stats, tmp):
     '''
-    input: act of user to replace character
+    input: act - act of user(str), stats - status of while in game(bool), tmp - template(list)
     output: character coordinates(list)[x, y]
     '''
-    coordinates = [0, 0]
-    if act == 'up':
-        coordinates[1] += 1
-    elif act == 'down':
-        coordinates[1] -= 1
-    elif act == 'right':
-        coordinates[0] += 1
-    elif act == 'left':
-        coordinates[0] -= 1
-    return coordinates
+    coord = [0, 0]
+
+    tmp.pop([coord[1]][coord[0]])
+    tmp.insert([coord[1]][coord[0]], 'x ')
+    return tmp
 
 def game():
     status = True
     field_size = user_input_field()
     while status:
-        coordinats = the_character(user_input_act)
         template = create_template(field_size)
+        the_character(user_input_act, status, template[1])
         to_print = list_to_string_convert(template)
-        for f in range(field_size - 1):
-            if coordinats[1] == f:
-                print(to_print[1:coordinats[0]] + 'x ' + to_print[coordinats[0]:])
+
+        for _ in range(field_size):
             print(to_print)
+
         user_act = user_input_act()
+
         if user_act == 'exit':
-            break
+            status = False
         
 
 game()
