@@ -1,5 +1,6 @@
 import turtle
 import random
+from turtle import Turtle
 
 screen = turtle.getscreen()
 t = turtle.Turtle()
@@ -31,15 +32,14 @@ class Road():
             spawn[0] = spawn[0] + 20
             t.goto(spawn[0], spawn[1])
     
-class Trtl():
+class Trtl(Turtle):
     def __init__(self, color, start):
+        super().__init__()
         self.color = color
         self.start = start
-        self.turt = turtle.Turtle()
     
     def create(self):
-        
-        self.turt.penup()
+        self.penup()
         self.turt.shape('turtle')
         self.turt.fillcolor(self.color)
         self.turt.goto(self.start[0], self.start[1])
