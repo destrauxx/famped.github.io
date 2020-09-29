@@ -40,21 +40,24 @@ class Trtl(Turtle):
     
     def create(self):
         self.penup()
-        self.turt.shape('turtle')
-        self.turt.fillcolor(self.color)
-        self.turt.goto(self.start[0], self.start[1])
+        self.shape('turtle')
+        self.fillcolor(self.color)
+        self.goto(self.start[0], self.start[1])
 
     def walk(self, step):
-        self.turt.forward(step)
+        self.pendown()
+        self.forward(step)
     
-    def check_finish():
-        
+    def check_finish(self, status):
+        print(self.xcor())
+        if round(self.xcor()) - 1 == end and round(self.xcor()) == end and round(self.xcor()) + 1 == end:
+            status = False
 
-step = random.randint(1, 5)
+step = random.randint(1, 2)
 
 road = Road(size_f)
 start = [-310, 80]   
-end = [-310 - size_f]      
+end = [-310 + size_f]      
 road.build(size_f) 
 
 
@@ -80,12 +83,19 @@ blue.create()
 
 start[1] -= 20
 
-while True:
+status = True
+while status:
+
+    yellow.check_finish(status)
+    red.check_finish(status)
+    lime.check_finish(status)
+    blue.check_finish(status)
+
     yellow.walk(step)
     red.walk(step)
     lime.walk(step)
     blue.walk(step)
 
 
-screen.mainloop()
 
+screen.mainloop()
