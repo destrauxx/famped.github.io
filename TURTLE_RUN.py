@@ -17,7 +17,6 @@ class Road():
         self.size = size
     
     def build(self, size):
-        t.speed(100)
         spawn = [-300, 100]
         t.penup()
         t.goto(spawn[0], spawn[1])
@@ -40,6 +39,7 @@ class Trtl(Turtle):
     
     def create(self):
         self.penup()
+        self.pencolor(self.color)
         self.shape('turtle')
         self.fillcolor(self.color)
         self.goto(self.start[0], self.start[1])
@@ -50,14 +50,16 @@ class Trtl(Turtle):
     
     def check_finish(self, status):
         print(self.xcor())
-        if round(self.xcor()) - 1 == end and round(self.xcor()) == end and round(self.xcor()) + 1 == end:
-            status = False
+        if self.xcor() == end:
+            self.penup()
+            self.hideturtle()
+            
 
 step = random.randint(1, 2)
 
 road = Road(size_f)
 start = [-310, 80]   
-end = [-310 + size_f]      
+end = -310 + size_f * 2      
 road.build(size_f) 
 
 
