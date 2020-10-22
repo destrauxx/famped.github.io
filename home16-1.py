@@ -1,14 +1,16 @@
 from tkinter import *
+from time import sleep
 
 
 #примечание для разработчиков - если в пункте TODO в конце написано "checked" пункт выполнен
 root = Tk()
-root.title('Godir 2')
+root.title('Capricorn: The First Chapter - January')
 
 
-canvas = Canvas(root, width=600, height=600, bg='ghost white')
+canvas = Canvas(root, width=600, height=600, bg='LightSkyBlue3')
 canvas.pack()
 root.resizable(0, 0)
+
 
 # canvas.create_line(0, 0, 600, 600)
 
@@ -59,20 +61,17 @@ class Circle:
         self.y = 10
         self.size = 30
         self.speed_x = 5
-        self.speed_y = 4
+        self.speed_y = 3
         self.canvas_size = 600
-        self.object = canvas.create_oval(self.x, self.y, self.size, self.size, fill='LightSkyBlue2', outline='LightSkyBlue2')
+        self.object = canvas.create_oval(self.x, self.y, self.size, self.size, fill='gainsboro', outline='gainsboro')
 
     def move(self):
         '''
         result - a Circle have move
         '''
-        # self.x += self.speed_x
-        # self.y += self.speed_y
         canvas.move(self.object, self.speed_x, self.speed_y)
         self.check_collision()
         self.check_collision_with_platform()
-
 
     def check_collision(self):
         '''
@@ -90,22 +89,31 @@ class Circle:
             self.speed_y *= -1
 
     def check_collision_with_platform(self):
-        #TODO сделать столкновения с боками
         pos_platform = p1.getter_coords()
         pos_circle = canvas.coords(self.object)
 
         if pos_circle[3] >= pos_platform[1] and pos_circle[2] >= pos_platform[0] and pos_circle[0] <= pos_platform[2] and pos_circle[1] <= pos_platform[3]:      #if circle have collision witn platform up - he is got around
             self.speed_y *= -1
+        if pos_circle[3] <= pos_platform[3] and pos_circle[1] >= pos_platform[1] and pos_circle[0] >= pos_platform[2]:
+            self.speed_x *= -1
 
+    def getter_status(self):
+        pos_circle = canvas.coords(self.object)
 
+        if pos_circle[3] >= self.canvas_size:
+            canvas.delete(ALL)
+            canvas.create_text(300, 300, text="You lose \n thanks for play", justify=CENTER,  font="Helvetica 20")
+            return False
+        else:
+            return True
 
 class Platform():
     def __init__(self):
         self.x = 250
         self.y = 500
-        self.size = 10
+        self.size = 15
         self.canvas_size = 600
-        self.object = canvas.create_rectangle(self.x, self.y, self.x + self.size*10, self.y + self.size, fill='yellow2', outline='yellow2')
+        self.object = canvas.create_rectangle(self.x, self.y, self.x + self.size*10, self.y + self.size, fill='Salmon4', outline='Salmon4')
         self.canvas = canvas
         self.canvas.bind_all('<KeyPress>', self.move)
 
@@ -115,86 +123,25 @@ class Platform():
         elif event.keysym == 'Right':
             canvas.move(self.object, 8, 0)
 
-        
         self.check_collision()
     
-
     def check_collision(self):
         #TODO: сделать проверку столкновения платформы со стеной (checked)
         posp = canvas.coords(self.object)            #pos = position, p = platform
+
         if posp[0] <= 0:
             canvas.move(self.object, 8, 0)
         elif posp[2] >= self.canvas_size:
             canvas.move(self.object, -8, 0)
     
-
     def getter_coords(self):
         posp = canvas.coords(self.object)
         return posp
 
-from time import sleep
 c1 = Circle()
 p1 = Platform()
-while True:
+while c1.getter_status(): 
     c1.move()
     root.update()
     sleep(0.03)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 root.mainloop()
