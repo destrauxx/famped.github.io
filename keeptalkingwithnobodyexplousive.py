@@ -42,7 +42,11 @@ class Board(Tk):
         self.canvas.create_line(posX + f_size, posX, posY, posY + f_size, fill='red', width=5)
 
     def render_circle(self, posX, posY):
-        pass
+        '''Magic number: 5, its a gap between edges and figure
+        Render o on field
+        '''
+        f_size = self.figure_size - 5
+        self.canvas.create_oval(posX + 5, posY + 5, posX + f_size, posY + f_size, outline='green', width=5)
 
     def winner(self, player=None):
         pass
@@ -56,7 +60,7 @@ game_v1 = Board(start_player=FIRST_PLAYER)
 game_v1.build_grid(BG_COLOR)
 
 # Testing
-# game_v1.render_cross(CANVAS_SIZE - FIGURE_SIZE * 2, CANVAS_SIZE - FIGURE_SIZE * 2)
+# game_v1.render_circle(CANVAS_SIZE - FIGURE_SIZE * 2, CANVAS_SIZE - FIGURE_SIZE * 2)
 
 # Run the game
 game_v1.mainloop()
