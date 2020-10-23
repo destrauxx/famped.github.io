@@ -4,7 +4,7 @@ from tkinter import *
 
 # Constants
 CANVAS_SIZE = 600
-FIGURE_SIZE = 200
+FIGURE_SIZE = CANVAS_SIZE / 3
 RATIO = CANVAS_SIZE // FIGURE_SIZE
 BG_COLOR = 'black'
 EMPTY = None
@@ -37,7 +37,9 @@ class Board(Tk):
 
 
     def render_cross(self, posX, posY):
-        pass
+        f_size = self.figure_size
+        self.canvas.create_line(posX, posY, posX + f_size, posY + f_size, fill='red', width=5)
+        self.canvas.create_line(posX + f_size, posX, posY, posY + f_size, fill='red', width=5)
 
     def render_circle(self, posX, posY):
         pass
@@ -52,6 +54,9 @@ class Board(Tk):
 # Initialize game object and execute require methods
 game_v1 = Board(start_player=FIRST_PLAYER)
 game_v1.build_grid(BG_COLOR)
+
+# Testing
+# game_v1.render_cross(CANVAS_SIZE - FIGURE_SIZE * 2, CANVAS_SIZE - FIGURE_SIZE * 2)
 
 # Run the game
 game_v1.mainloop()
