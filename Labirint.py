@@ -1,6 +1,5 @@
 from tkinter import *
 from random import randint
-#& C:/Users/Виталий/AppData/Local/Programs/Python/Python38-32/python.exe "c:/Python vol 2/Labirint.py"
 # Constants
 CANVAS_SIZE = 600
 RECT_SIZE = CANVAS_SIZE // 20
